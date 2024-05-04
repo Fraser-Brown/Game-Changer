@@ -15,6 +15,7 @@ export default function App() {
   const [player , setPlayer] = useState("")
   const [playerList , setPlayerList] = useState([])
   const [page, setPage] = useState('Register')
+  const [isHost, setIsHost] = useState(false)
 
   function recieveFromServer(msg){
     console.log(msg);
@@ -25,6 +26,9 @@ export default function App() {
         setPlayerList(message.players)
         break;
       case "deletePlayer":
+        setPlayerList(message.players)
+        break;
+      case "updatePlayers":
         setPlayerList(message.players)
         break;
       default:
@@ -42,9 +46,10 @@ export default function App() {
   const allPages = [
     'Register',
     'Players',
-    'Host',
     'Buzzer'
   ]
+
+  //TODO make it so once registered you cant reregister???
   return (
     <View style={styles.container}>
 
@@ -57,12 +62,21 @@ export default function App() {
                 <Text style={styles.headerButton}>{page}</Text>
             </TouchableOpacity>
             )}
+            {isHost &&
+            <TouchableOpacity
+                key={page}
+                onPress={() => setPage('Host')}
+                style={styles.button}>
+                <Text style={styles.headerButton}>{'Host'}</Text>
+            </TouchableOpacity>
+            }
         </View>
         
         { page === 'Register' &&
           <Register
             player = {player}
             setPlayer = {(value) => setPlayer(value)}
+            setIsHost = {(value) => setIsHost(value)}
             ws = {ws}
             changePage={() => setPage('Players')}
           />
