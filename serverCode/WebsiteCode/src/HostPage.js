@@ -18,24 +18,43 @@ function removePointFromPlayer(ws, playerName){
     ws.send(JSON.stringify(msg));
 }
 
-export default function HostPage({playerList, player, ws}){
+function resetBuzzers(ws){
+    var msg = {"type" : "resetBuzzers"};
+    ws.send(JSON.stringify(msg));
+}
+
+export default function HostPage({playerList, ws, buzzedPlayer, setBuzzedPlayer}){
     return(
-        <View
-            style = {{display : "flex", flexDirection : 'row', flexWrap : 'wrap', justifyContent : 'center'}}
-        >
-            {playerList && playerList.map(
-                (playerDetails, index) => 
-                    <View>
-                        <PlayerUpdater  
-                        key={playerDetails.name} 
-                        colour={colours[index % colours.length] } 
-                        playerName = {playerDetails.name} 
-                        ws = {ws} 
-                        image = {playerDetails.image}
-                        points = {playerDetails.points}
-                    />
-                    </View>
-            )}
+        <View>
+            <View  style = {{display : "flex", flexDirection : 'row', flexWrap : 'wrap', justifyContent : 'center', alignItems: 'center'}}>
+                <Text style={{fontSize: '35px'}}>{buzzedPlayer ? `Buzzed Player : ${buzzedPlayer}` : 'No one has buzzed in yet'}</Text>
+                <TouchableOpacity
+                    onPress={() => {
+                        resetBuzzers(ws)
+                        setBuzzedPlayer(null)
+                    }}
+                    style={styles.button}>
+                        <Text style={styles.text}>Reset Buzzers</Text>
+                </TouchableOpacity>
+            </View>
+            <View
+                style = {{display : "flex", flexDirection : 'row', flexWrap : 'wrap', justifyContent : 'center'}}
+            >
+            
+                {playerList && playerList.map(
+                    (playerDetails, index) => 
+                        <View>
+                            <PlayerUpdater  
+                            key={playerDetails.name} 
+                            colour={colours[index % colours.length] } 
+                            playerName = {playerDetails.name} 
+                            ws = {ws} 
+                            image = {playerDetails.image}
+                            points = {playerDetails.points}
+                        />
+                        </View>
+                )}
+            </View>
         </View>
     )
 }

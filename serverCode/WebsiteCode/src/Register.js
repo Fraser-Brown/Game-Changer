@@ -17,7 +17,6 @@ export default function Register({ player, setPlayer, setIsHost, ws, changePage}
     function sendProfilePic(imgSrc, playerName, ws){
         var msg = {"type" : "register", "name" : playerName, 'image' : imgSrc};
         ws.send(JSON.stringify(msg));
-        changePage();
         setIsHost(false)
     }
 

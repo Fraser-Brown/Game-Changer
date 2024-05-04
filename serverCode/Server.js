@@ -51,10 +51,16 @@ function handleClientMessage(ws, msg){
     let json = JSON.parse(msg);
     switch (json.type) {
         case 'register':
-            console.log('new player added ' + json.name);
-            players.push({name : json.name, websocket : ws, image : json.image, points: 0})  
-            
-            sendDetailsToPlayers({type : 'newPlayer', players : players});
+            if(players.some(player => player.name === json.name)){
+                ws.send(JSON.stringify({type: 'alreadyRegistered'}))
+            }
+            else{
+                console.log('new player added ' + json.name);
+                players.push({name : json.name, websocket : ws, image : json.image, points: 0})  
+                ws.send(JSON.stringify({type: 'registrationComplete'}))
+                
+                sendDetailsToPlayers({type : 'newPlayer', players : players});
+            }
             break;
         
         case 'addHost': 
@@ -75,6 +81,14 @@ function handleClientMessage(ws, msg){
                 const losingPlayer = players.find(player =>  player.name === json.name)
                 losingPlayer.points = losingPlayer.points - 1;
                 sendDetailsToPlayers({type : 'updatePlayers', players : players} );
+            break;
+
+        case 'buzzedIn':
+            sendDetailsToPlayers({type: 'alreadyBuzzed', player: json.name})
+            break;
+
+        case 'resetBuzzers':
+            sendDetailsToPlayers({type: 'resetBuzzers'})
             break;
         default:
             console.log('Default')
@@ -97,6 +111,20 @@ function sendDetailsToPlayers(msg){
             activePlayers[player].send(msg);
         }
     }
+    for(var host in activeHosts){
+        if(activeHosts[host]){
+            activeHosts[host].send(msg);
+        }
+    }
+}
+
+function sendDetailsToHosts(msg){
+    const activeHosts = hosts.filter(host => host.websocket !== null 
+                    && host.websocket.readyState !== 3 )
+            .map(host => host.websocket)
+
+    msg = JSON.stringify(msg);
+
     for(var host in activeHosts){
         if(activeHosts[host]){
             activeHosts[host].send(msg);

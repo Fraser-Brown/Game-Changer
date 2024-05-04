@@ -16,6 +16,9 @@ export default function App() {
   const [playerList , setPlayerList] = useState([])
   const [page, setPage] = useState('Register')
   const [isHost, setIsHost] = useState(false)
+  const [canBuzz, setCanBuzz] = useState(true)
+  const [buzzedPlayer, setBuzzedPlayer] = useState(null)
+  const [isRegistered, setIsRegistered] = useState(false)
 
   function recieveFromServer(msg){
     console.log(msg);
@@ -25,13 +28,30 @@ export default function App() {
       case "newPlayer":
         setPlayerList(message.players)
         break;
+      case 'registrationComplete':
+        setIsRegistered(true);
+        setPage('Players')
+        break;
+      case "alreadyRegistered":
+        alert('Name Taken: Please use another')
+        break;
       case "deletePlayer":
         setPlayerList(message.players)
         break;
       case "updatePlayers":
         setPlayerList(message.players)
         break;
+      case 'alreadyBuzzed':
+        setCanBuzz(false);
+        if(!buzzedPlayer){
+          setBuzzedPlayer(message.player)
+        }
+        break;
+      case 'resetBuzzers':
+        setCanBuzz(true);
+        break;
       default:
+        console.log(message)
         break;
     }
   }
@@ -45,8 +65,7 @@ export default function App() {
   
   const allPages = [
     'Register',
-    'Players',
-    'Buzzer'
+    'Players'
   ]
 
   //TODO make it so once registered you cant reregister???
@@ -68,6 +87,14 @@ export default function App() {
                 onPress={() => setPage('Host')}
                 style={styles.button}>
                 <Text style={styles.headerButton}>{'Host'}</Text>
+            </TouchableOpacity>
+            }
+            {!isHost &&
+            <TouchableOpacity
+                key={page}
+                onPress={() => setPage('Buzzer')}
+                style={styles.button}>
+                <Text style={styles.headerButton}>{'Buzzer'}</Text>
             </TouchableOpacity>
             }
         </View>
@@ -93,13 +120,17 @@ export default function App() {
               playerList={playerList} 
               player={player} 
               ws={ws} 
+              buzzedPlayer={buzzedPlayer}
+              setBuzzedPlayer={setBuzzedPlayer}
             />
         }
-        { page === 'Buzzer' &&
+        { page === 'Buzzer' && isRegistered &&
           <BuzzerPage 
               playerList={playerList} 
               player={player} 
               ws={ws} 
+              canBuzz={canBuzz}
+              setCanBuzz={setCanBuzz}
             />
         }
     </View>
