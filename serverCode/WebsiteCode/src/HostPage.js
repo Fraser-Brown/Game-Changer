@@ -98,6 +98,13 @@ function PlayerUpdater({playerName, image, ws, points, colour}){
             </TouchableOpacity>
           
           <Text style={[styles.player , {backgroundColor : colour}]}>{points}</Text>
+          <TouchableOpacity
+                onPress={() => {
+                    deletePlayer(ws, playerName)
+                }}
+                style={styles.button}>
+                    <Text style={styles.text}>Delete Player</Text>
+            </TouchableOpacity>
       </View>
     </View>
     )

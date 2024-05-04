@@ -19,7 +19,7 @@ const server = https.createServer(
   )
 const wss = new websockets.WebSocketServer({ server });
 
-const players = [];
+let players = [];
 
 const hosts = []
 
@@ -67,7 +67,7 @@ function handleClientMessage(ws, msg){
             hosts.push({websocket : ws})
 
         case 'deletePlayer':
-                players.filter(player => player.name !== json.name)
+                players = players.filter(player => player.name !== json.name)
                 sendDetailsToPlayers({type : 'deletePlayer', players : players} );
             break;
 
