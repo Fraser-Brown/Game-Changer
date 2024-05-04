@@ -58,8 +58,8 @@ export default function App() {
 
   useEffect( () => {
     // ws = new WebSocket("wss://thefrasergame.ddns.net:443"); //Live
-    // ws = new WebSocket("wss://192.168.0.169:443"); //Development
-    ws = new WebSocket("wss://localhost:443"); //Development
+    ws = new WebSocket("wss://192.168.0.169:443"); //Development
+    // ws = new WebSocket("wss://localhost:443"); //Development
     ws.onmessage = recieveFromServer;
   }, [])
   
@@ -141,7 +141,7 @@ const em = 16;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f72585ff",
+    backgroundColor: "#5fa5ba",
     color :"white",
     alignItems: "center"
   },

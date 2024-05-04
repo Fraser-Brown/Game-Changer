@@ -22,8 +22,8 @@ export default function BuzzerPage({playerList, player, ws, canBuzz, setCanBuzz}
                 }}
                 style={[styles.button,
                         {
-                            width: '50vw',
-                            height: '50vw',
+                            width: '70vw',
+                            height: '70vw',
                             textAlign: 'center',
                             background: canBuzz ? 'red' : 'grey',
                             display: 'flex',
@@ -34,7 +34,7 @@ export default function BuzzerPage({playerList, player, ws, canBuzz, setCanBuzz}
                             border: 'white solid 3px',
                         }
                 ]}>
-                    <Text style={{fontSize: '60px', color : canBuzz ? 'white': 'black'}}>{canBuzz ? 'Buzz In' : 'You cant buzz right now'}</Text>
+                    <Text style={{fontSize: '30px', color : canBuzz ? 'white': 'black'}}>{canBuzz ? 'Buzz In' : 'You cant buzz right now'}</Text>
             </TouchableOpacity>
         </View>
     )

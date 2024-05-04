@@ -37,15 +37,15 @@ export default function Register({ player, setPlayer, setIsHost, ws, changePage}
     return (
         <>  
             <View style={styles.container}>
-                <ReactCamera ws={ws} playerName={player} sendPhoto= {sendProfilePic} children= {children}/>
                 <TouchableOpacity
-                    onPress={() => {
-                        setIsHost(true);
-                        addAsHost(ws)
-                    }}
-                    style={styles.button}>
-                    <Text style={styles.text}>I am a Host</Text>
+                        onPress={() => {
+                            setIsHost(true);
+                            addAsHost(ws)
+                        }}
+                        style={styles.button}>
+                        <Text style={styles.text}>I am a Host</Text>
                 </TouchableOpacity>
+                <ReactCamera ws={ws} playerName={player} sendPhoto={sendProfilePic} children={children}/>
             </View>
         </>
     )

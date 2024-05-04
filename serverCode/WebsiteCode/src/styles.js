@@ -17,7 +17,8 @@ export const styles = StyleSheet.create({
     button: {
         backgroundColor: "black" ,
         borderRadius : em,
-        margin: em
+        margin: em,
+        zIndex: 100
     },
     text: {
         color: "#fff",
