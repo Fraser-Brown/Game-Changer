@@ -1,0 +1,25 @@
+{
+  "name": "fraser-game-website",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "setup": "node setup.js",
+    "teardown": "node teardown.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "basic-auth": "^2.0.1",
+    "express": "^4.16.4",
+    "express-ws": "^4.0.0",
+    "fs": "0.0.1-security",
+    "https": "^1.0.0",
+    "lodash": "^4.17.21",
+    "nat-upnp": "^1.1.1",
+    "shelljs": "^0.8.5",
+    "ws": "^8.5.0"
+  }
+}
